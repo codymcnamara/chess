@@ -1,16 +1,5 @@
 class Sliding < Piece
 
-
-  def self.diagonals
-    diagonals = [[-1, -1], [-1, 1], [1, -1], [1, 1]]
-    diagonals.map {|move| Vector.elements(move)}
-  end
-
-  def self.orthogonals
-    orthogonals = [[-1, 0], [0, -1], [0, 1], [1, 0]]
-    orthogonals.map {|move| Vector.elements(move)}
-  end
-
   def moves(vectors)
     potential_moves = []
 
@@ -32,20 +21,16 @@ class Sliding < Piece
     potential_moves
   end
 
-  def valid?(potential_move)
-    potential_move.each do |coord|
-      return false unless (0..7) === coord
-    end
-    true
-  end
-
 end
 
 class Queen < Sliding
-
+  def initialize(color, board, *position)
+    super
+    @char = @color == :black ? "♛" : "♕"
+  end
 
   def moves
-    vectors= Sliding.orthogonals + Sliding.diagonals
+    vectors = Piece.all_directions
     super(vectors)
   end
 
@@ -53,17 +38,26 @@ end
 
 class Rook < Sliding
 
+  def initialize(color, board, *position)
+    super
+    @char = @color == :black ? "♜" : "♖"
+  end
+
   def moves
-    vectors= Sliding.orthogonals
+    vectors = Piece.orthogonals
     super(vectors)
   end
 
 end
 
 class Bishop < Sliding
+  def initialize(color, board, *position)
+    super
+    @char = @color == :black ? "♝" : "♗"
+  end
 
   def moves
-    vectors = Sliding.diagonals
+    vectors = Piece.diagonals
     super(vectors)
   end
 end
