@@ -4,7 +4,10 @@ class Stepping < Piece
     potential_moves = []
     vectors.each do |vector|
       potential_move = position + vector
-      potential_moves << potential_move if valid?(potential_move)
+      next unless on_board?(potential_move)
+      if no_piece?(potential_move) || opponent_piece?(potential_move)
+        potential_moves << potential_move
+      end
     end
     potential_moves
   end
@@ -24,15 +27,17 @@ class King < Stepping
 end
 
 class Knight < Stepping
-  def initialize(color, board, *position)
-    super
-    @char = @color == :black ? "♞" : "♘"
-  end
 
   def self.jumps
     arrays = [[-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1], [-2, 1], [-2, -1]]
     arrays.map{ |arr| Vector.elements(arr) }
   end
+
+  def initialize(color, board, *position)
+    super
+    @char = @color == :black ? "♞" : "♘"
+  end
+
 
   def moves
     vectors = self.class.jumps
@@ -42,6 +47,17 @@ end
 
 class Pawn < Stepping
 
+  def self.vectors(color)
+    white = [[-1, 1], [-1, -1], [-1, 0], [-2, 0]]
+    black = [[1, 1], [1, -1], [1, 0], [2, 0]]
+    if color == :black
+      black.map{ |arr| Vector.elements(arr) }
+    else
+      white.map{ |arr| Vector.elements(arr) }
+    end
+  end
+
+
   def initialize(color, board, *position)
   super
   @char = @color == :black ? "♟" : "♙"
@@ -49,13 +65,18 @@ class Pawn < Stepping
 
   def moves
     potential_moves = []
-    case color
-    when :black
-      potential_moves << position + Vector[1, 0]
-      potential_moves << position + Vector[2, 0] if at_start?
-    when :white
-      potential_moves << position + Vector[1, 0]
-      potential_moves << position + Vector[2, 0] if at_start?
+    vectors = Pawn.vectors(color)
+    diags = vectors.take(2)
+    forwards = vectors.drop(2)
+    diags.each do |vector|
+      potential_move = position + vector
+      next unless on_board?(potential_move) && !no_piece?(potential_move) #and not empty
+      potential_moves << potential_move if opponent_piece?(potential_move)
+    end
+    forwards.each do |vector|
+      potential_move = position + vector
+      break unless on_board?(potential_move) && no_piece?(potential_move)
+      potential_moves << potential_move
     end
     potential_moves
   end
