@@ -7,7 +7,6 @@ class Board
     old_board.grid.flatten.compact.each do |piece|
       pos = piece.position.dup
       new_board[piece.position] = piece.class.new(piece.color, new_board, pos[0], pos[1])
-      #byebug
     end
 
     new_board
@@ -70,6 +69,10 @@ class Board
     grid.flatten.compact.select { |piece| piece.color != color }
   end
 
+  def my_pieces(color)
+    grid.flatten.compact.select { |piece| piece.color == color }
+  end
+
   def find_king(color)
     king = nil
     grid.flatten.compact.each do |piece|
@@ -78,6 +81,17 @@ class Board
     king
   end
 
+  def checkmate?(color)
+    return false unless in_check?(color)
+    my_pieces(color).each do |piece|
+      initial_pos = piece.position
+      piece.moves.each do |potential_move|
+        return false if piece.move_into_check?(initial_pos, potential_move) == false
+      end
+    end
+
+    true
+  end
 
   def [](vector)
     grid[vector[0]][vector[1]]
@@ -105,12 +119,13 @@ end
 
 
 a = Board.new
-a.move(Vector[1,2], Vector[3,2])
-a.move(Vector[0,3], Vector[3,0])
-a.move(Vector[6,3], Vector[5,3])
-
+a.move(Vector[1,4], Vector[3,4])
+a.move(Vector[6,5], Vector[5,5])
+a.move(Vector[6,6], Vector[4,6])
+a.move(Vector[0,3], Vector[4,7])
 a.render
-p Board.deep_dup(a)[Vector[6,2]].moves
+p a.checkmate?(:white)
+#p Board.deep_dup(a)[Vector[6,2]].moves
 
 
 
