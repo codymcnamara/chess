@@ -25,48 +25,6 @@ class Sliding < Piece
     potential_moves
   end
 
-
-  # potential_moves = []
-  #
-  # diff = 1
-  #
-  # while vectors.any?
-  #   new_vectors = vectors
-  #   vectors.each do |vector|
-  #     potential_move = position + vector * diff
-  #     unless on_board?(potential_move)
-  #       new_vectors = vectors - [vector]
-  #       next
-  #     end
-  #
-  #     unless (board.square(potential_move) && board.square(potential_move).color == color)
-  #       new_vectors = vectors - [vector]
-  #       next
-  #     end
-  #     potential_moves << potential_move
-  #   end
-  #   diff += 1
-  #   vectors = new_vectors
-  # end
-  #
-  # potential_moves
-  # end
-  def valid_moves(thing)
-
-  end
-
-  # def valid_moves(vectors)
-  #   legal_moves = []
-  #
-  #   potential_moves = moves(vectors)
-  #   potential_moves.each |potential_move|
-  #   if board.square(potential_move) == nil
-  #     legal_moves << potential_move
-  #   elsif board.square(potential_move).color ==
-  #
-  #   end
-  #
-  # end
 end
 
 class Queen < Sliding

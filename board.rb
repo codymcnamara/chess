@@ -118,17 +118,11 @@ class Board
 end
 
 
-a = Board.new
-a.move(Vector[1,4], Vector[3,4])
-a.move(Vector[6,5], Vector[5,5])
-a.move(Vector[6,6], Vector[4,6])
-a.move(Vector[0,3], Vector[4,7])
-a.render
-p a.checkmate?(:white)
-#p Board.deep_dup(a)[Vector[6,2]].moves
-
-
-
-
+# a = Board.new
+# a.move(Vector[1,4], Vector[3,4])
+# a.move(Vector[6,5], Vector[5,5])
+# a.move(Vector[6,6], Vector[4,6])
+# a.move(Vector[0,3], Vector[4,7])
 # a.render
-# p a[[4,1]]
+# p a.checkmate?(:white)
+#p Board.deep_dup(a)[Vector[6,2]].moves
