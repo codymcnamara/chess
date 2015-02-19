@@ -1,4 +1,5 @@
 require_relative 'board.rb'
+require 'byebug'
 
 class Game
   attr_accessor :board
@@ -10,6 +11,8 @@ class Game
   end
 
   def play
+    @board.render
+
     while true
       @white_player.play_turn
 
@@ -42,15 +45,22 @@ class HumanPlayer
     @board = board
   end
 
-  def play_turn
-    begin
-      puts "#{self.color} pick start position: y, x"
-      start_pos = gets.chomp.split(",").map {|coord| coord.to_i}
-      start_vector = Vector[start_pos[0], start_pos[1]]
 
-      puts "pick end position: y, x"
-      end_pos = gets.chomp.split(",").map {|coord| coord.to_i}
-      end_vector = Vector[end_pos[0], end_pos[1]]
+  def play_turn
+    letters = ("a".."h").to_a
+
+    begin
+      puts "#{self.color} pick start position. example: b2"
+      start_input = gets.chomp.split("")
+      start_x_pos = letters.index(start_input[0])
+      start_y_pos = (start_input[1].to_i - 8).abs
+      start_vector = Vector[start_y_pos, start_x_pos]
+
+      puts "pick end position. example: b3"
+      end_input = gets.chomp.split("")
+      end_x_pos = letters.index(end_input[0])
+      end_y_pos = (end_input[1].to_i - 8).abs
+      end_vector = Vector[end_y_pos, end_x_pos]
 
       @board.move(start_vector, end_vector)
     rescue

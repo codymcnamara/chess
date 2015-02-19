@@ -102,7 +102,10 @@ class Board
   end
 
   def render
+    i = 8
     @grid.each do |row|
+      print "#{i} "
+      i -= 1
       row.each do |piece|
         if piece
           print piece.char
@@ -113,16 +116,8 @@ class Board
       end
       puts
     end
+    print "  " + ("a".."h").to_a.join(" ")
+    puts
     nil
   end
 end
-
-
-# a = Board.new
-# a.move(Vector[1,4], Vector[3,4])
-# a.move(Vector[6,5], Vector[5,5])
-# a.move(Vector[6,6], Vector[4,6])
-# a.move(Vector[0,3], Vector[4,7])
-# a.render
-# p a.checkmate?(:white)
-#p Board.deep_dup(a)[Vector[6,2]].moves
