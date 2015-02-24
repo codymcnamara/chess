@@ -32,6 +32,15 @@ class Game
     end
   end
 
+  # def checkmate?(color)
+  #   if @board.checkmate?(color)
+  #     puts "#{color} wins!"
+  #     break
+  #   end
+  # end
+  # def game_over?(color)
+  #   @board.checkmate?(color)
+  # end
 
 end
 
